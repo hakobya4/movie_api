@@ -16,7 +16,7 @@ http.createServer((request, response) => {
   });
 
   if (q.pathname.includes('documentation')) {
-    filePath = (__dirname + '/documentation.html');
+    filePath = ('/Users/karenhakobyan/Desktop/movie_api/public/documentation.html');
   } else {
     filePath = '../index.html';
   }
