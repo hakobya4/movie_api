@@ -4,21 +4,209 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Documentation</title>
 </head>
 <body>
     <h1>Movie API</h1>
     <p>Essential   Features </p>
-    <ul>
-        <li>Return a list of ALL movies to the user</li>
-        <li>Return data (description, genre, director, image URL, whether it's featured or not) about a  single movie by title to the user</li>
-        <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
-        <li>Return data about a director (bio, birth year, death year) by name</li>
-        <li>Allow new users to register</li>
-        <li>Allow users to update their user info (username, password, email, date of birth)</li>
-        <li>Allow users to add a movie to their list of favorites</li>
-        <li>Allow users to remove a movie from their list of favorites</li>
-        <li>Allow existing users to deregist</li>
-    </ul>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col" class="w-10">Business Logic</th>
+            <th scope="col" class="w-5">URL</th>
+            <th scope="col" class="w-5">HTTP Method</th>
+            <th scope="col" class="w-20">Request body data format</th>
+            <th scope="col">Response body data format</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Return a list of ALL movies to the user</th>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all the movies </td>
+          </tr>
+          <tr>
+            <th scope="row">Return data (description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</th>
+            <td>/movies/:title</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a single movie, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
+<pre>
+  {
+    id: 1,
+    title: 'The Shawshank Redemption',
+    descrition: 'Over the course of several years, two 
+                convicts form a friendship, seeking consolation 
+                and,eventually, redemption through basic compassion.',
+    genre:'Drama',
+    director: {
+        title: 'Frank Darabont',
+        bio: 'Frank Árpád Darabont is a French-born American film director, 
+              screenwriter and producer.',
+        birth_year: 1959,
+        death_year:'N/A',
+        },
+    image_URL: 
+        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
+    },
+</pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Return data about a genre (description) by name/title (e.g., “Thriller”)</th>
+            <td>/movies/:title/genre</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a genre(s) of a single movie, containing genre(s). Example:
+              <br>
+              <br>
+              genre:'Drama'
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Return data about a director (bio, birth year, death year) by name</th>
+            <td>/movies/:title/director</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a director of a single movie, containing name, bio, birth year, and death year. Example:
+<pre>
+  director: {
+    title: 'Frank Darabont',
+    bio: 'Frank Árpád Darabont is a French-born 
+          American film director, 
+          screenwriter and producer.',
+    birth_year: 1959,
+    death_year:'N/A',
+  }
+</pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Allow new users to register;</th>
+            <td>/register</td>
+            <td>POST</td>
+            <td>A JSON object holding data about the user to add, structured like:
+<pre>
+{
+  username: "JoeJane",
+  password: "Password1!",
+  email: "example@gmail.com",
+}
+</pre>
+            </td>
+            <td>A JSON object holding data about the user that was added, including an ID:
+<pre>
+{
+  id:1,
+  username: "JoeJane",
+  password: "Password1!",
+  email: "example@gmail.com",
+}
+</pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Allow users to update their user info (username, password, email, date of birth)</th>
+            <td>/:username</td>
+            <td>PUT</td>
+            <td>A JSON object holding data about the updated user information, structured like:
+<pre>
+{
+  username: "New Username",
+  password: "New Password",
+  email: "New Email",
+}
+</pre>
+            </td>
+            <td>A text message indicating whether data of the user has been updated and
+              <br>
+              a JSON object holding data about the user that was changed:
+<pre>
+{
+  New User Information:
+  username: "New Username",
+  password: "New Password",
+  email: "New Email",
+}
+</pre>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Allow users to add a movie to their list of favorites</th>
+            <td>/:username/favorites</td>
+            <td>POST</td>
+            <td>A JSON object holding data about a single movie to be added to the user's favorite movie list, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
+<pre>
+  {
+    id: 1,
+    title: 'The Shawshank Redemption',
+    descrition: 'Over the course of several years, two 
+                convicts form a friendship, seeking consolation 
+                and,eventually, redemption through basic compassion.',
+    genre:'Drama',
+    director: {
+        title: 'Frank Darabont',
+        bio: 'Frank Árpád Darabont is a French-born American film director, 
+              screenwriter and producer.',
+        birth_year: 1959,
+        death_year:'N/A',
+        },
+    image_URL: 
+        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
+    },
+</pre>
+            </td>
+            <td>A JSON object holding data of the favorite movie list of the user, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
+<pre>
+  {
+    id: 1,
+    title: 'The Shawshank Redemption',
+    descrition: 'Over the course of several years, two 
+                convicts form a friendship, seeking consolation 
+                and,eventually, redemption through basic compassion.',
+    genre:'Drama',
+    director: {
+        title: 'Frank Darabont',
+        bio: 'Frank Árpád Darabont is a French-born American film director, 
+              screenwriter and producer.',
+        birth_year: 1959,
+        death_year:'N/A',
+        },
+    image_URL: 
+        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
+    },
+</pre>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Allow users to remove a movie from their list of favorites</th>
+            <td>/:username/favorites</td>
+            <td>DELETE</td>
+            <td>A JSON object holding data about a title of single movie in favorite list of a user, containing title. Example:
+              <br>
+              <br>
+              title:'The Dark Knight'
+            </td>
+            <td>A text message indicating whether data of the user's favorite list has been deleted</td>
+          </tr>
+          <tr>
+            <th scope="row">Allow existing users to deregister</th>
+            <td>/users</td>
+            <td>DELETE</td>
+            <td>A JSON object holding data about a user, containing username. Example:
+              <br>
+              <br>
+              username:'JoeJane'
+            </td>
+            <td>A text message indicating whether user has been deleted</td>
+          </tr>
+        </tbody>
+      </table>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
