@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Movie API</h1>
-    <p>Essential   Features </p>
+    <p>Essential Features </p>
     <table class="table">
         <thead class="thead-dark">
           <tr>
@@ -33,67 +33,51 @@
             <td>/movies/:title</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about a single movie, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
-<pre>
-  {
-    id: 1,
-    title: 'The Shawshank Redemption',
-    descrition: 'Over the course of several years, two 
-                convicts form a friendship, seeking consolation 
-                and,eventually, redemption through basic compassion.',
-    genre:'Drama',
-    director: {
-        title: 'Frank Darabont',
-        bio: 'Frank Árpád Darabont is a French-born American film director, 
-              screenwriter and producer.',
-        birth_year: 1959,
-        death_year:'N/A',
-        },
-    image_URL: 
-        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
-    },
-</pre>
-            </td>
+            <td>A JSON object holding data about a single movie, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL.</td>
           </tr>
           <tr>
-            <th scope="row">Return data about a genre (description) by name/title (e.g., “Thriller”)</th>
-            <td>/movies/:title/genre</td>
+            <th scope="row">Return data about a single genre including name and description</th>
+            <td>/genre/:genre</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about a genre(s) of a single movie, containing genre(s). Example:
-              <br>
-              <br>
-              genre:'Drama'
-            </td>
+            <td>A JSON object holding data about info regarding a single genre.</td>
           </tr>
           <tr>
-            <th scope="row">Return data about a director (bio, birth year, death year) by name</th>
+            <th scope="row">Return data about movies using a single genre</th>
+            <td>/movies/:genre/genre</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about info regarding movie(s) of a single genre.</td>
+          </tr>
+          <tr>
+            <th scope="row">Return data about a director (bio, birth year, death year) by movie name</th>
             <td>/movies/:title/director</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about a director of a single movie, containing name, bio, birth year, and death year. Example:
-<pre>
-  director: {
-    title: 'Frank Darabont',
-    bio: 'Frank Árpád Darabont is a French-born 
-          American film director, 
-          screenwriter and producer.',
-    birth_year: 1959,
-    death_year:'N/A',
-  }
-</pre>
-            </td>
+            <td>A JSON object holding data about a director of a single movie, containing name, bio, birth year, and death year.</td>
+          </tr>
+          <tr>
+            <th scope="row">Return data about a single director (bio, birth year, death year) by director name</th>
+            <td>/director/:director</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about info regarding a single genre.</td>
           </tr>
           <tr>
             <th scope="row">Allow new users to register;</th>
-            <td>/register</td>
+            <td>/users</td>
             <td>POST</td>
-            <td>A JSON object holding data about the user to add, structured like:
+            <td>A JSON object holding data about the user to add,
+            <br>
+              including username, password, email and favorites,
+            <br>
+              structured like:
 <pre>
 {
   username: "JoeJane",
   password: "Password1!",
   email: "example@gmail.com",
+  favorites: [MovieID: 774747747, 948484884]
 }
 </pre>
             </td>
@@ -104,15 +88,32 @@
   username: "JoeJane",
   password: "Password1!",
   email: "example@gmail.com",
+  favorites: [MovieID: 774747747, 948484884]
 }
 </pre>
             </td>
           </tr>
           <tr>
+            <th scope="row">Return data about all users</th>
+            <td>/users</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about info of all users.</td>
+          </tr>
+          <tr>
+            <th scope="row">Return data about a single user by username</th>
+            <td>/users/:username</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about info on one user.</td>
+          </tr>
+          <tr>
             <th scope="row">Allow users to update their user info (username, password, email, date of birth)</th>
-            <td>/:username</td>
+            <td>/user/:username/update</td>
             <td>PUT</td>
-            <td>A JSON object holding data about the updated user information, structured like:
+            <td>A JSON object holding data about the updated user information, 
+            <br>
+              structured like:
 <pre>
 {
   username: "New Username",
@@ -126,81 +127,64 @@
               a JSON object holding data about the user that was changed:
 <pre>
 {
-  New User Information:
   username: "New Username",
   password: "New Password",
   email: "New Email",
+  birthday: "New Birthday"
 }
 </pre>
             </td>
           </tr>
           <tr>
             <th scope="row">Allow users to add a movie to their list of favorites</th>
-            <td>/:username/favorites</td>
+            <td>/users/:username/movies/:MovieID</td>
             <td>POST</td>
-            <td>A JSON object holding data about a single movie to be added to the user's favorite movie list, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
+            <td>None</td>
+            <td>A JSON object holding data about the user who's favorite move list
+              <br>
+               has changed. Example:
 <pre>
-  {
-    id: 1,
-    title: 'The Shawshank Redemption',
-    descrition: 'Over the course of several years, two 
-                convicts form a friendship, seeking consolation 
-                and,eventually, redemption through basic compassion.',
-    genre:'Drama',
-    director: {
-        title: 'Frank Darabont',
-        bio: 'Frank Árpád Darabont is a French-born American film director, 
-              screenwriter and producer.',
-        birth_year: 1959,
-        death_year:'N/A',
-        },
-    image_URL: 
-        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
-    },
+{
+  username: "Username",
+  password: "Password",
+  email: "Email",
+  birthday: "Birthday"
+  favories: [new MovieID]
+}
 </pre>
             </td>
-            <td>A JSON object holding data of the favorite movie list of the user, containing an id, title, descripion, genre, director(name, bio, birth year, death year) and image URL. Example:
-<pre>
-  {
-    id: 1,
-    title: 'The Shawshank Redemption',
-    descrition: 'Over the course of several years, two 
-                convicts form a friendship, seeking consolation 
-                and,eventually, redemption through basic compassion.',
-    genre:'Drama',
-    director: {
-        title: 'Frank Darabont',
-        bio: 'Frank Árpád Darabont is a French-born American film director, 
-              screenwriter and producer.',
-        birth_year: 1959,
-        death_year:'N/A',
-        },
-    image_URL: 
-        'https://m.media-amazon.com/images/I/51zUbui+gbL._AC_UF894,1000_QL80_.jpg',
-    },
-</pre>
-              </td>
           </tr>
           <tr>
             <th scope="row">Allow users to remove a movie from their list of favorites</th>
-            <td>/:username/favorites</td>
+            <td>/users/:username/movies/:MovieID</td>
             <td>DELETE</td>
-            <td>A JSON object holding data about a title of single movie in favorite list of a user, containing title. Example:
+            <td>None</td>
+            <td>A JSON object holding data about the user who's favorite move list
               <br>
-              <br>
-              title:'The Dark Knight'
+               has changed by delition. Example:
+<pre>
+{
+  username: "Username",
+  password: "Password",
+  email: "Email",
+  birthday: "Birthday"
+  favories: [changed MovieID]
+}
+</pre>
             </td>
-            <td>A text message indicating whether data of the user's favorite list has been deleted</td>
+            <tr>
+              <th scope="row">Return data about the favorite movie list of one user by name</th>
+              <td>/users/:username/favorites</td>
+              <td>GET</td>
+              <td>None</td>
+              <td>A JSON object holding data about all MovieIDs in an array of favorites</td>
+            </tr>
           </tr>
           <tr>
             <th scope="row">Allow existing users to deregister</th>
             <td>/users</td>
             <td>DELETE</td>
-            <td>A JSON object holding data about a user, containing username. Example:
-              <br>
-              <br>
-              username:'JoeJane'
-            </td>
+            <td>None</td>
             <td>A text message indicating whether user has been deleted</td>
           </tr>
         </tbody>
