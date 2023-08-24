@@ -40,6 +40,9 @@ app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+  res.send('Movie API');
+});
 
 // Gets the list of data about ALL movies
 
