@@ -116,7 +116,7 @@ app.get('/movies/:title/director', passport.authenticate('jwt', { session: false
 );
 
 // Adds register user using username, date of birth, email and password
-app.post('/users', passport.authenticate('jwt', { session: false }),
+app.post('/users',
   [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
