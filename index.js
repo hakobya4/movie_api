@@ -58,28 +58,16 @@ app.get('/movies',passport.authenticate('jwt', { session: false }), async (req, 
 });
 // Gets the data about a single movie, by title
 
-app.get('/movies/:title',passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.find({Title: req.params.title})
-    .then((movie_title) => {
-      res.status(201).json(movie_title);
+app.get('/movies/:MovieID',passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Movies.find({'id': req.params.MovieID})
+    .then((movie_id) => {
+      res.status(201).json(movie_id);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
 });
-
-// Gets movies by their genre
-app.get('/movies/genre/:genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Movies.find({ 'Genre.Name': req.params.genre })
-      .then((movies_genre) => {
-        res.status(200).json(movies_genre);
-      })
-      .catch((err) => {
-        res.status(500).send('Error: ' + err);
-      });
-  }
-);
 
 // Gets info regarding a genre
 app.get('/genre/:genre',passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -106,17 +94,6 @@ app.get('/director/:director',passport.authenticate('jwt', { session: false }), 
 );
 
 
-// Gets information regarding the director of a movie by title
-app.get('/movies/:title/director', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.findOne({ Title : req.params.title },{Director: 1})
-    .then((movie_director) => {
-      res.status(200).json(movie_director);
-    })
-    .catch((err) => {
-      res.status(500).send('Error: ' + err);
-    });
-}
-);
 
 // Adds register user using username, date of birth, email and password
 app.post('/users',
@@ -218,22 +195,6 @@ app.post('/users/:username/movies/:MovieID',passport.authenticate('jwt', { sessi
     res.status(500).send("Error: " + err);
   });
 });
-
-//all favorites of a user
-
-app.get('/users/:username/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if(req.user.Username !== req.params.username){
-    return res.status(400).send('Permission denied');
-}
-  await Users.findOne({ Username: req.params.username },{FavoriteMovies: 1})
-    .then((user) => {
-      if (user) {
-        res.json(user);
-      }else {
-        const message = 'Missing username in request body';
-        res.status(400).send(message);
-      }
-})});
 
 // Deletes a movie from list favorites of user.
 app.delete('/:username/favorites/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {

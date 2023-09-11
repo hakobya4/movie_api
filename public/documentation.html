@@ -43,20 +43,6 @@
             <td>A JSON object holding data about info regarding a single genre.</td>
           </tr>
           <tr>
-            <th scope="row">Return data about movies using a single genre</th>
-            <td>/movies/:genre/genre</td>
-            <td>GET</td>
-            <td>None</td>
-            <td>A JSON object holding data about info regarding movie(s) of a single genre.</td>
-          </tr>
-          <tr>
-            <th scope="row">Return data about a director (bio, birth year, death year) by movie name</th>
-            <td>/movies/:title/director</td>
-            <td>GET</td>
-            <td>None</td>
-            <td>A JSON object holding data about a director of a single movie, containing name, bio, birth year, and death year.</td>
-          </tr>
-          <tr>
             <th scope="row">Return data about a single director (bio, birth year, death year) by director name</th>
             <td>/director/:director</td>
             <td>GET</td>
@@ -165,13 +151,6 @@
 }
 </pre>
             </td>
-            <tr>
-              <th scope="row">Return data about the favorite movie list of one user by name</th>
-              <td>/users/:username/favorites</td>
-              <td>GET</td>
-              <td>None</td>
-              <td>A JSON object holding data about all MovieIDs in an array of favorites</td>
-            </tr>
           </tr>
           <tr>
             <th scope="row">Allow existing users to deregister</th>
