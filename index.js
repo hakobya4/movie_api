@@ -226,24 +226,26 @@ app.put(
 
 // Allow users to add a movie to their list of favorites.
 app.post(
-  "/users/:Username/movies/:MovieID",
+  "/users/:username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
+  async (req, res) => {
+    if (req.user.Username !== req.params.username) {
+      return res.status(400).send("Permission denied");
+    }
+    await Users.findOneAndUpdate(
+      { Username: req.params.username },
       {
         $push: { FavoriteMovies: req.params.MovieID },
       },
-      { new: true },
-      (error, UpdatedUser) => {
-        if (error) {
-          console.log(error);
-          res.status(201).send("error: " + error);
-        } else {
-          res.json(UpdatedUser);
-        }
-      }
-    );
+      { new: true }
+    ) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
 );
 
