@@ -197,6 +197,15 @@ app.get(
 app.put(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
   async (req, res) => {
     if (req.user.Username !== req.params.username) {
       return res.status(400).send("Permission denied");
