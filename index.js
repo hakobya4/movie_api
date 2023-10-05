@@ -195,41 +195,46 @@ app.get(
 
 // Update the user info by the username
 app.put(
-  "/users/:username",
-  passport.authenticate("jwt", { session: false }),
+  "/users/:Username",
   [
+    //validation
     check("Username", "Username is required").isLength({ min: 5 }),
     check(
       "Username",
-      "Username contains non alphanumeric characters."
+      "Username contains non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
     check("Password", "Password is required").not().isEmpty(),
     check("Email", "Email does not appear to be valid").isEmail(),
   ],
-  async (req, res) => {
-    if (req.user.Username !== req.params.username) {
-      return res.status(400).send("Permission denied");
+
+  (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOneAndUpdate(
-      { Username: req.params.username },
+
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
       {
         $set: {
+          Name: req.body.Name,
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
         },
       },
-      { new: true }
-    ) // This line makes sure that the updated document is returned
-      .then((updatedUser) => {
-        res.json(updatedUser);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
+      { new: true },
+      (error, updatedUser) => {
+        if (error) {
+          console.error(error);
+          res.status(201).send("error: " + error);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
   }
 );
 
