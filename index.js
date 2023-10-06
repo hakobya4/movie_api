@@ -27,6 +27,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "https://mymovies-narek.netlify.app",
   "http://localhost:4200",
+  "https://hakobya4.github.io",
 ];
 app.use(
   cors({
