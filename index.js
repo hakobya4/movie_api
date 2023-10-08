@@ -60,8 +60,12 @@ app.get("/", (req, res) => {
   res.send("Movie API");
 });
 
-// Gets the list of data about ALL movies
-
+/**
+ * This function returns info of all movies
+ *
+ * @name movies
+ * @returns error status and info of all movies
+ */
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -76,8 +80,15 @@ app.get(
       });
   }
 );
-// Gets the data about a single movie, by title
 
+/**
+ * This function takes the movieId and returns information
+ * regarding the movie with the movie id
+ *
+ * @name oneMovie
+ * @param genre object id of a movie
+ * @returns error status and movie info
+ */
 app.get(
   "/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -93,7 +104,14 @@ app.get(
   }
 );
 
-// Gets info regarding a genre
+/**
+ * This function takes the name of the genre and returns
+ * the genre information
+ *
+ * @name genre
+ * @param genre object name of genre
+ * @returns error status and genre info
+ */
 app.get(
   "/genre/:genre",
   passport.authenticate("jwt", { session: false }),
@@ -108,7 +126,14 @@ app.get(
   }
 );
 
-// Gets info regarding director
+/**
+ * This function takes the name of the director and returns
+ * the director information
+ *
+ * @name director
+ * @param director object name of director
+ * @returns error status and director info
+ */
 app.get(
   "/director/:director",
   passport.authenticate("jwt", { session: false }),
@@ -126,7 +151,13 @@ app.get(
   }
 );
 
-// Adds register user using username, date of birth, email and password
+/**
+ * This function validates the user information recieved and if valid
+ * adds the user information to the database
+ *
+ * @name addUsers
+ * @returns error status and adds a user to database
+ */
 app.post(
   "/users",
   [
@@ -174,7 +205,13 @@ app.post(
   }
 );
 
-// Get a user by username
+/**
+ * This function finds the user information from a database based on username
+ *
+ * @name oneUser
+ * @param username object username
+ * @returns error status and user information
+ */
 app.get(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
@@ -194,7 +231,14 @@ app.get(
   }
 );
 
-// Update the user info by the username
+/**
+ * This function validates the user information recieved and if validated
+ * edits the user information on the database
+ *
+ * @name editUser
+ * @param username object username
+ * @returns error status and updates user info
+ */
 app.put(
   "/users/:Username",
   [
@@ -239,7 +283,14 @@ app.put(
   }
 );
 
-// Allow users to add a movie to their list of favorites.
+/**
+ * This function adds a movie id to the user's array of favorite movies
+ *
+ * @name faveFilm
+ * @param username object username
+ * @param MovieId object movie id
+ * @returns error status and deletes movie id from user info
+ */
 app.post(
   "/users/:username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -264,7 +315,14 @@ app.post(
   }
 );
 
-// Deletes a movie from list favorites of user.
+/**
+ * This function deletes a movie id from user's array of favorite movies
+ *
+ * @name unfaveFilm
+ * @param username object username
+ * @param MovieId object movie id
+ * @returns error status and deletes user
+ */
 app.delete(
   "/:username/favorites/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -290,7 +348,13 @@ app.delete(
   }
 );
 
-//Allow existing users to deregister
+/**
+ * This function deletes user from a database
+ *
+ * @name delUser
+ * @param username object username
+ * @returns error status
+ */
 app.delete(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
