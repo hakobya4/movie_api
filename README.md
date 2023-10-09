@@ -1,4 +1,4 @@
-# movie_api
+# Movie API
 This project is a RESTful API created by Node Js and Express. 
 The API holds information regarding movies (genre/director/summary) 
 and gives the ability to have users log in, register, add movies to 
