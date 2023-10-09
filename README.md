@@ -18,8 +18,6 @@ of their favorite movies.
 - [Screenshots](#Screenshots)
 - [Technical_Requirements](#Technical_Requirements)
 - [Dependencies](#Dependencies)
-- [Environment](#Environment)
-- [User_Stories](#User_Stories)
 
 ## Features
 
