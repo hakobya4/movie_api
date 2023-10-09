@@ -1,5 +1,5 @@
 # Movie API
-This project is a RESTful API created by Node Js and Express. 
+[MovieAPI](https://movie-api-myflix-39dfea723223.herokuapp.com/) is a RESTful API created by Node Js and Express. 
 The API holds information regarding movies (genre/director/summary) 
 and gives the ability to have users log in, register, add movies to 
 the user's favorites list, log out, and delete users. This is in part due to a MongoDB database.
